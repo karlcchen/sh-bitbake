@@ -1,0 +1,2 @@
+# sh-bitbake
+soniccorex bitbake
