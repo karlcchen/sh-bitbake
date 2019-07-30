@@ -19,5 +19,8 @@ elif [ -d ./meta-soniccorex-bsp ] ; then
     cd ./meta-soniccorex-bsp/recipes-diag
 elif [ -d ./recipes-diag ] ; then 
     cd ./recipes-diag
+else 
+    echo "ERROR: cannot cd to diag, not in known path!"
+    # do not do 'exit', as this file is "sourced"!      
 fi 
 
