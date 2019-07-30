@@ -2,5 +2,5 @@
 #
 # setup-diag-anderson-peak.sh
 #
-source ~/sh-bitbake/setup-build.sh anderson-peak diag
+~/sh-bitbake/setup-build.sh "anderson-peak" "diags"
 
