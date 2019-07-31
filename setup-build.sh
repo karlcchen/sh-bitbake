@@ -1,8 +1,8 @@
 #
 # for being 'source'd file, not to be execuated by shell 
+#
 # setup-build.sh
 #
-
 export BUILD_MACHINE="$1"
 export BUILD_TARGET="$2"
 export FILE_BUILD_COMPLETE=".build_complete"
