@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-BUILD_TARGET="diag-minimal"
-LOG_FILE="${BUILD_TARGET}-clean-sstate.log"
+BB_PROJECT="diag-minimal"
+LOG_FILE="${BB_PROJECT}-clean-sstate.log"
 TEE_LOG="tee --append ${LOG_FILE}"
 rm -f ${LOG_FILE}
 bitbake -c cleansstate ${BB_PROJECT} 2>&1 | ${TEE_LOG}
