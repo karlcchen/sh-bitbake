@@ -17,14 +17,12 @@ else
     # do not exit as this file is sourced, also if "exited" and running in tmux/screen, it exit the current screen not "bash"  
     #    exit 1
     else
-	pushd .
 	rm -f ${FILE_BUILD_COMPLETE}
         PROJECT=lithium MACHINE=${BUILD_MACHINE} PRODUCT="" CONF=dev source ./setup.sh build.${BUILD_TARGET}.${BUILD_MACHINE}
         if [ $? -ne 0 ] ; then 
 	    echo -e "\nERROR: setup bitbake build environment: ${BUILD_TARGET}.${BUILD_MACHINE} failed!\n" 
 	#    exit 2
         fi
-	popd
     fi 
 fi
 
