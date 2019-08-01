@@ -8,7 +8,7 @@ export BUILD_TARGET="$2"
 export FILE_BUILD_COMPLETE=".build_complete"
 
 #if [ \("${BUILD_MACHINE}" = "" \)  -o  \( "${BUILD_TARGET}" = "" \) ] ; then
-if [[ ( "${BUILD_MACHINE}" = "" ) -o  ( "${BUILD_TARGET}" = "" ) ]] ; then
+if [[ ( "${BUILD_MACHINE}" = "" ) ||  ( "${BUILD_TARGET}" = "" ) ]] ; then
 
     echo -e "\nERROR: incomplete input found!\n"
 else
