@@ -9,6 +9,11 @@ if [ $? -ne 0 ] ; then
     echo "ERROR: bitbake -c cleansstate ${BB_PROJECT} failed!"
     exit 1
 fi 
+bitbake -c cleanall diag 2>&1 | tee --append diag-cleanall.log
+if [ $? -ne 0 ] ; then 
+    echo "ERROR: bitbake -c cleanall diag failed!"
+    exit 1
+fi 
 #
 ~/sh-bitbake/bb-diag.sh
 
