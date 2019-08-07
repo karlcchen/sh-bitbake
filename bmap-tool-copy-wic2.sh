@@ -1,5 +1,7 @@
 #!/bin/bash
 #
+# bmap-tool-copy-wic2.sh
+#
 DEST_DEV="/dev/sdd"
 FORCE_FLAG=0
 
@@ -47,7 +49,7 @@ do
 done 
 
 if [ -f "$INPUT_FILENAME" ] ; then
-    sudo bmaptool copy $1 ${DEST_DEV}
+    sudo bmaptool copy ${INPUT_FILENAME} ${DEST_DEV}
 else
     echo -e "ERROR: file \'$INPUT_FILENAME\' not found!"
     exit 9
