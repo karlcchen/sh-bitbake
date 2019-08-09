@@ -17,4 +17,4 @@ if [ "${DEST_DEV}" = "" ] ; then
     exit 2 
 fi 
 
-~/sh-bitbake/bmap-tool-copy-wic2.sh ${OPT} ${TFTPBOOT_DEST}/${MACHINE_TYPE}/diag-minimal-${MACHINE_TYPE}.wic ${DEST_DEV}
+~/sh-bitbake/bmap-tool-copy-wic2.sh ${OPT} ${TFTPBOOT_DEST}/diag-minimal-${MACHINE_TYPE}.wic ${DEST_DEV}
