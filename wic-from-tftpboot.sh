@@ -5,7 +5,7 @@
 MACHINE_TYPE="${1}"
 DEST_DEV="${2}"
 OPT="-f"
-TFTPBOOT_DEST="/tftpboot/kchen/wic-bmap"
+TFTPBOOT_DEST="/tftpboot/kchen/wic-bmap/${MACHINE_TYPE}"
 
 if [ "${MACHINE_TYPE}" = "" ] ; then 
     echo -e "/nERROR: first argument: Missing Machine Type!/n"

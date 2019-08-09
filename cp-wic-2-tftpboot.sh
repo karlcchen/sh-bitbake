@@ -3,11 +3,17 @@
 # cp-wic-2-tftpboot.sh
 #
 MACHINE_TYPE="${1}"
-TFTPBOOT_DEST="/tftpboot/kchen/wic-bmap"
+TFTPBOOT_DEST="/tftpboot/kchen/wic-bmap/${MACHINE_TYPE}"
 
 if [ "${MACHINE_TYPE}" = "" ] ; then 
     echo -e "\nERROR: first argument: Missing Machine Type!\n"
     exit 1 
+fi 
+
+mkdir -p ${TFTPBOOT_DEST}
+if [ $? -ne 0 ] ; then 
+    echo -e "\nERROR: 'mkdir -p ${TFTPBOOT_DEST}' failed!\n"
+    exit 2 
 fi 
 
 echo -e "\nINFO: copying diag-minimal-${MACHINE_TYPE}.wic ..."
