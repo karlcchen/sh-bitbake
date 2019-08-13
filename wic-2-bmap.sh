@@ -4,7 +4,7 @@
 #
 MACHINE_TYPE="${1}"
 DEST_DEV="${2}"
-OPT="-f"
+OPT="${3}"
 
 if [ "${MACHINE_TYPE}" = "" ] ; then 
     echo -e "/nERROR: first argument: Missing Machine Type!/n"
