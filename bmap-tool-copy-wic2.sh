@@ -4,12 +4,6 @@
 #
 FORCE_FLAG=0
 
-if [ "$1" = "-f" ] ; then 
-    FORCE_FLAG=1
-    echo -e "\nINFO: use option '-f': focre write to device even if umount the device failed..."
-    shift 1
-fi 
-
 if [ "$1" = "" ]; then
     echo -e "\nERROR: no input wic file sepecified!\n"
     exit 1
@@ -42,6 +36,11 @@ else
         echo -e "\nINFO: auto found destniation device as ${DEST_DEV}"     
     fi 
 fi
+
+if [ "$3" = "-f" ] ; then 
+    FORCE_FLAG=1
+    echo -e "\nINFO: use option '-f': focre write to device even if umount the device failed..."
+fi 
 
 # check device is valid 
 sudo fdisk -l ${DEST_DEV}
