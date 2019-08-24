@@ -2,9 +2,11 @@
 #
 # wic-2-bmap.sh
 #
-MACHINE_TYPE="${1}"
-DEST_DEV="${2}"
+
+DEST_DEV="${1}"   # can be skipped and auto found
+MACHINE_TYPE="${2}" # can be skipped and auto found
 OPT="-f"
+
 AUTO_MACHINE_TYPE_DIR="./build_output/deploy/images"
 
 if [ "${MACHINE_TYPE}" = "" ] ; then 
@@ -24,4 +26,6 @@ fi
 #    exit 2 
 #fi 
 #
+
+
 ~/sh-bitbake/bmap-tool-copy-wic2.sh "build_output/deploy/images/${MACHINE_TYPE}/diag-minimal-${MACHINE_TYPE}.wic" "${DEST_DEV}" "${OPT}" 

@@ -8,13 +8,13 @@ if [ "$1" = "" ]; then
     echo -e "\nERROR: no input wic file sepecified!\n"
     exit 1
 else 
-    INPUT_FILENAME="$1"
+    INPUT_FILENAME="${1}"
     echo -e "\nINFO: INPUT_FILENAME=${INPUT_FILENAME}"
 fi
 
 if [ ! "$2" = "" ]; then
     DEST_DEV="$2"
-    echo -e "\nINFO: set DEST_DEV=${DEST_DEV}"
+    echo -e "\nINFO: Skip auto find device name, use DEST_DEV=${DEST_DEV}"
 else
 #
 # auto find usb device name from the last entry of "fdisk -l"
@@ -23,16 +23,19 @@ else
     # DEST_DEV4_LAST_CHAR=`echo "${DEST_DEV4: -1}"`  # the old method of get last char of the string 
     DEST_DEV4_LAST_CHAR=`echo -n "${DEST_DEV4}" | tail -c 1`
     DEST_DEV_PREFIX=`echo -n "${DEST_DEV4}" | cut -c 1-5`
+    DEST_DEV=`echo -n "${DEST_DEV4}" | cut -c 1-8`
     if [ "${DEST_DEV_PREFIX}" != "/dev/" ] ; then 
         echo -e "\nERROR: Cannot auto find the destination usb device running 'sudo fdiks -l | tail -n1', got: '${DEST_DEV4}'"
         echo -e "TIPS: the usb device must be newly inserted and not (yet) ejected\n"
         exit 2
     fi 
-    if [ "${DEST_DEV4_LAST_CHAR}" != "4" ] ; then 
-        echo -e "\nERROR: the destination device found is '${DEST_DEV4}', it does not have partition #4\n"
+    if [ ${DEST_DEV4_LAST_CHAR} -lt 4  ] ; then 
+        printf "\nERROR: the destination device found is \"${DEST_DEV4}\", it cannot find its partition #4\n"
+        printf "The reason could be the device has never been processed by wic-2-bmap\n" 
+        printf "Note: if you are sure the device, such as \"${DEST_DEV}\" is correct, specify its name instead of auto find it...\n"
+        printf "\nFor Example:\n\n\t wic-2-bmap.sh %s\n\n" "${DEST_DEV}"
         exit 2 
     else 
-        DEST_DEV=`echo -n "${DEST_DEV4}" | cut -c 1-8`
         echo -e "\nINFO: auto found destniation device as ${DEST_DEV}"     
     fi 
 fi
@@ -91,19 +94,23 @@ do
     fi 
 done 
 
-if [ -f "$INPUT_FILENAME" ] ; then
+if [ -f "${INPUT_FILENAME}" ] ; then
     sudo bmaptool copy ${INPUT_FILENAME} ${DEST_DEV}
 else
-    echo -e "\nERROR: file \'$INPUT_FILENAME\' not found!\n"
+    printf "\nERROR: ### input file \"%s\" not found!\n" "${INPUT_FILENAME}"
     exit 8
 fi
 
 sync
-sync
+if [ $? -ne 0 ] ; then 
+    echo -e "\nERROR: sync failed!\n" 
+    exit 9
+fi 
+
 sudo eject ${DEST_DEV} 
 if [ $? -ne 0 ] ; then 
     echo -e "\nERROR: sudo eject ${DEST_DCEV} failed!\n" 
-    exit 9
+    exit 10
 fi 
 
 echo "=== Write to ${DEST_DEV} completed successfully ===" 
