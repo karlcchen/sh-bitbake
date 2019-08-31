@@ -3,14 +3,18 @@
 # bmap-tool-copy-wic2.sh
 #
 FORCE_FLAG=0
+MACHINE_TYPE=""
+# "build_output/deploy/images/${MACHINE_TYPE}/diag-minimal-${MACHINE_TYPE}.wic" "${DEST_DEV}" "${OPT}"  
 
 if [ "$1" = "" ]; then
-    echo -e "\nERROR: no input wic file sepecified!\n"
+    echo -e "\nERROR: no input machine type specified!\n"
     exit 1
 else 
-    INPUT_FILENAME="${1}"
-    echo -e "\nINFO: INPUT_FILENAME=${INPUT_FILENAME}"
+    MACHINE_TYPE="${1}"
 fi
+
+INPUT_FILENAME="build_output/deploy/images/${MACHINE_TYPE}/diag-minimal-${MACHINE_TYPE}.wic"
+echo -e "\nINFO: INPUT_FILENAME=${INPUT_FILENAME}"
 
 if [ ! "$2" = "" ]; then
     DEST_DEV="$2"
@@ -96,21 +100,45 @@ done
 
 if [ -f "${INPUT_FILENAME}" ] ; then
     sudo bmaptool copy ${INPUT_FILENAME} ${DEST_DEV}
+    if [ $? -ne 0 ] ; then 
+        echo -e "\nERROR: 'sudo bmaptool copy ${INPUT_FILENAME} ${DEST_DEV}' failed!\n" 
+        exit 8
+    fi 
+    TMP_MNT_NAME="./temp-part1"
+    IMG_INFO_FILENAME="${TMP_MNT_NAME}/${MACHINE_TYPE}.info"     
+    mkdir -p ${TMP_MNT_NAME}
+    sudo mount ${DEST_DEV}1 ${TMP_MNT_NAME}
+    if [ $? -ne 0 ] ; then 
+        echo -e "\nERROR: mount ${DEST_DEV}1 ${TMP_MNT_NAME} failed!\n" 
+        exit 9
+    fi 
+#
+    echo "# MACHINE_TYPE=${MACHINE_TYPE}"        | sudo tee -a ${IMG_INFO_FILENAME}
+    echo "# BUILD_TYPE=diag-linux"               | sudo tee -a ${IMG_INFO_FILENAME}
+    echo "# BMAP_WIC_FILENAME=${INPUT_FILENAME}" | sudo tee -a ${IMG_INFO_FILENAME}
+    echo "# DATE=`date`"                         | sudo tee -a ${IMG_INFO_FILENAME} 
+#
+    sync
+    cat ${IMG_INFO_FILENAME} 
+    sudo umount ./temp-part1
+    if [ $? -ne 0 ] ; then 
+        echo -e "\nERROR ignored: umount ${TMP_MNT_NAME} failed!\n" 
+    fi 
 else
     printf "\nERROR: ### input file \"%s\" not found!\n" "${INPUT_FILENAME}"
-    exit 8
+    exit 10
 fi
 
 sync
 if [ $? -ne 0 ] ; then 
     echo -e "\nERROR: sync failed!\n" 
-    exit 9
+    exit 11
 fi 
 
 sudo eject ${DEST_DEV} 
 if [ $? -ne 0 ] ; then 
     echo -e "\nERROR: sudo eject ${DEST_DCEV} failed!\n" 
-    exit 10
+    exit 12
 fi 
 
 echo "=== Write to ${DEST_DEV} completed successfully ===" 

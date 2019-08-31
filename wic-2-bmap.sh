@@ -27,5 +27,4 @@ fi
 #fi 
 #
 
-
-~/sh-bitbake/bmap-tool-copy-wic2.sh "build_output/deploy/images/${MACHINE_TYPE}/diag-minimal-${MACHINE_TYPE}.wic" "${DEST_DEV}" "${OPT}" 
+~/sh-bitbake/bmap-tool-copy-wic2.sh "${MACHINE_TYPE}" "${DEST_DEV}" "${OPT}"  
