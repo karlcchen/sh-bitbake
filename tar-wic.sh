@@ -6,14 +6,22 @@
 IMAGE_DIR="./build_output/deploy"
 FIND_SPEC1='*.wic' 
 FIND_SPEC2='*.wic.bmap'
+PWD=`pwd`
+MACHINE_TYPE="${1}"
+BUILD_TYPE="${2}"
 
 if [ "$1" = "" ] ; then 
-    printf "\n ERROR: no base tar file name specified!\n"  
-    printf "\n Example: tar-wic.sh anderson-peak\n\n"
-    exit 1
-else
-    TAR_FILENAME="${1}-wic-bmap.tar.gz"
+    MACHINE_TYPE=`echo "${PWD}" | rev | cut -d"." -f1  | rev`
+    printf "\nINFO: found MACHINE TYPE: %s\n" "${MACHINE_TYPE}"
 fi 
+
+if [ "$2" = "" ] ; then 
+    BUILD_TYPE=`echo "${PWD}" | rev | cut -d"." -f2  | rev`
+    printf "INFO: found BUILD TYPE: %s\n" "${BUILD_TYPE}"
+fi 
+
+TAR_FILENAME="${MACHINE_TYPE}-${BUILD_TYPE}-wic-bmap.tar.gz"
+
 #
 cd ${IMAGE_DIR}
 if [ $? -ne 0 ] ; then 
@@ -22,9 +30,12 @@ if [ $? -ne 0 ] ; then
     exit 2
 fi 
 #
-aname "${FIND_SPEC1}" "${FIND_SPEC2}" | xargs tar czvf ../../${TAR_FILENAME}
+printf " Tarring files, please wait...\n" 
+aname "${FIND_SPEC1}" "${FIND_SPEC2}" | xargs tar czvf ../../${TAR_FILENAME} 
 if [ $? -ne 0 ] ; then 
-    printf "\n ERROR: tar %s files failed!" "${FIND_SPECS}"
+    printf "\n ERROR: tar create \"%s\" file failed, Search for: %s %s" "${TAR_FILENAME}" "${FIND_SPECS1}" "${FIND_SPECS2}"
     exit 3
 fi 
+
+printf "\n %d files tarred successfully\n" ${N_FILES}
 
