@@ -4,7 +4,6 @@
 #
 FORCE_FLAG=0
 MACHINE_TYPE=""
-# "build_output/deploy/images/${MACHINE_TYPE}/diag-minimal-${MACHINE_TYPE}.wic" "${DEST_DEV}" "${OPT}"  
 
 if [ "$1" = "" ]; then
     echo -e "\nERROR: no input machine type specified!\n"
@@ -13,7 +12,15 @@ else
     MACHINE_TYPE="${1}"
 fi
 
-INPUT_FILENAME="build_output/deploy/images/${MACHINE_TYPE}/diag-minimal-${MACHINE_TYPE}.wic"
+# 
+# called directly, ${BUILD_MACHINE_TYPE_DIR} can be undefined! 
+# 
+if [ "${WIC_FILENAME}" = "" ] ; then 
+    INPUT_FILENAME="${BUILD_MACHINE_TYPE_DIR}${MACHINE_TYPE}/diag-minimal-${MACHINE_TYPE}.wic"
+else 
+    INPUT_FILENAME="${WIC_FILENAME}"	
+fi 
+
 echo -e "\nINFO: INPUT_FILENAME=${INPUT_FILENAME}"
 
 if [ ! "$2" = "" ]; then
@@ -107,10 +114,19 @@ if [ -f "${INPUT_FILENAME}" ] ; then
     TMP_MNT_NAME="./temp-part1"
     IMG_INFO_FILENAME="${TMP_MNT_NAME}/${MACHINE_TYPE}.info"     
     mkdir -p ${TMP_MNT_NAME}
+    if [ $? -ne 0 ] ; then 
+        printf "\nERROR: mkdir -p  %s failed!\n" "${TMP_MNT_NAME}"
+        exit 9
+    fi 
+#
+# just in case any of these were mounted before
+    sudo umount ./temp-part1
+    sudo umount ${DEST_DEV}1
+#
     sudo mount ${DEST_DEV}1 ${TMP_MNT_NAME}
     if [ $? -ne 0 ] ; then 
         echo -e "\nERROR: mount ${DEST_DEV}1 ${TMP_MNT_NAME} failed!\n" 
-        exit 9
+        exit 10
     fi 
 #
     echo "# MACHINE_TYPE=${MACHINE_TYPE}"        | sudo tee -a ${IMG_INFO_FILENAME}
@@ -119,26 +135,35 @@ if [ -f "${INPUT_FILENAME}" ] ; then
     echo "# DATE=`date`"                         | sudo tee -a ${IMG_INFO_FILENAME} 
 #
     sync
-    cat ${IMG_INFO_FILENAME} 
-    sudo umount ./temp-part1
     if [ $? -ne 0 ] ; then 
-        echo -e "\nERROR ignored: umount ${TMP_MNT_NAME} failed!\n" 
+        echo -e "\nERROR ignored: sync failed!\n" 
+    fi 
+
+    cat ${IMG_INFO_FILENAME} 
+    if [ $? -ne 0 ] ; then 
+        printf "\nERROR ignored car %s failed!\n" "${IMG_INFO_FILENAME}"
+    fi 
+#    sudo umount ./temp-part1
+    sudo umount ${DEST_DEV}1
+    if [ $? -ne 0 ] ; then 
+        echo -e "\nERROR: ignore \"umount %s\" failed!\n" "${DEST_DEV}1"
+        exit 10
     fi 
 else
     printf "\nERROR: ### input file \"%s\" not found!\n" "${INPUT_FILENAME}"
-    exit 10
+    exit 11
 fi
 
 sync
 if [ $? -ne 0 ] ; then 
     echo -e "\nERROR: sync failed!\n" 
-    exit 11
+    exit 12
 fi 
 
 sudo eject ${DEST_DEV} 
 if [ $? -ne 0 ] ; then 
     echo -e "\nERROR: sudo eject ${DEST_DCEV} failed!\n" 
-    exit 12
+    exit 13
 fi 
 
 echo "=== Write to ${DEST_DEV} completed successfully ===" 
