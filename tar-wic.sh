@@ -36,6 +36,5 @@ if [ $? -ne 0 ] ; then
     printf "\n ERROR: tar create \"%s\" file failed, Search for: %s %s" "${TAR_FILENAME}" "${FIND_SPECS1}" "${FIND_SPECS2}"
     exit 3
 fi 
-
-printf "\n %d files tarred successfully\n" ${N_FILES}
+printf "\n all files tarred successfully\n"
 
