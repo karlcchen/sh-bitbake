@@ -132,17 +132,20 @@ if [ -f "${INPUT_FILENAME}" ] ; then
         exit 10
     fi 
 #
-    echo "# MACHINE_TYPE=${MACHINE_TYPE}"        | sudo tee -a ${IMG_INFO_FILENAME}
-    echo "# BUILD_TYPE=diag-linux"               | sudo tee -a ${IMG_INFO_FILENAME}
-    echo "# BMAP_WIC_FILENAME=${INPUT_FILENAME}" | sudo tee -a ${IMG_INFO_FILENAME}
-    echo "# DATE=`date`"                         | sudo tee -a ${IMG_INFO_FILENAME} 
+    echo "# MACHINE_TYPE =${MACHINE_TYPE}"   | sudo tee -a ${IMG_INFO_FILENAME}
+    echo "# BUILD_TYPE   =diag-linux"        | sudo tee -a ${IMG_INFO_FILENAME}
+    echo "# WIC_FILENAME =${INPUT_FILENAME}" | sudo tee -a ${IMG_INFO_FILENAME}
+    echo "# DATE         =`date`"            | sudo tee -a ${IMG_INFO_FILENAME} 
 #
     sync
     if [ $? -ne 0 ] ; then 
         echo -e "\nERROR ignored: sync failed!\n" 
     fi 
 
-    cat ${IMG_INFO_FILENAME} 
+#
+# for dump info file content
+#    printf "\n=== Boot drive File %s in first partition ===\n" "${IMG_INFO_FILENAME}"
+#    cat ${IMG_INFO_FILENAME} 
     if [ $? -ne 0 ] ; then 
         printf "\nERROR ignored car %s failed!\n" "${IMG_INFO_FILENAME}"
     fi 
