@@ -4,6 +4,9 @@
 #
 FORCE_FLAG=0
 MACHINE_TYPE=""
+MIN_DRIVE_CAP=3
+MAX_DRIVE_CAP=64
+N_PARTITION_EXPECTED=4
 
 if [ "$1" = "" ]; then
     echo -e "\nERROR: no input machine type specified!\n"
@@ -40,8 +43,8 @@ else
         echo -e "TIPS: the usb device must be newly inserted and not (yet) ejected\n"
         exit 2
     fi 
-    if [ ${DEST_DEV4_LAST_CHAR} -lt 4  ] ; then 
-        printf "\nERROR: the destination device found is \"${DEST_DEV4}\", it cannot find its partition #4\n"
+    if [ ${DEST_DEV4_LAST_CHAR} -lt ${N_PARTITION_EXPECTED} ] ; then 
+        printf "\nERROR: the destination device found is \"${DEST_DEV4}\", it cannot find its partition #%d\n" ${N_PARTITION_EXPECTED}
         printf "The reason could be the device has never been processed by wic-2-bmap\n" 
         printf "Note: if you are sure the device, such as \"${DEST_DEV}\" is correct, specify its name instead of auto find it...\n"
         printf "\nFor Example:\n\n\t wic-2-bmap.sh %s\n\n" "${DEST_DEV}"
@@ -83,8 +86,8 @@ if [ "${SIZE_UNIT}" != "${SIZE_UNIT_EXPECTED}" ] ; then
     exit 5
 fi 
 
-if [[ ! ${DEV_SIZE} -ge 8 && ${DEV_SIZE} -le 64 ]]; then 
-    echo -e "\nERROR: device size is not within 8 to 64 ${SIZE_UNIT_EXPECTED}\n"
+if [[ ! ${DEV_SIZE} -ge ${MIN_DRIVE_CAP} && ${DEV_SIZE} -le ${MAX_DRIVE_CAP} ]]; then 
+    printf "\nERROR: device size is not within %d to %d %s\n" ${MIN_DRIVE_CAP} ${MAX_DRIVE_CAP} "${SIZE_UNIT_EXPECTED}"
     exit 6
 fi 
 
