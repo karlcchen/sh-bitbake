@@ -1,6 +1,12 @@
 #!/bin/bash
 #
-# rename branch name 
+# rename a branch name 
+#
+# Renaming a local Git Branch is just a matter of one command. 
+# However you can’t directly rename a remote branch, 
+# you need to delete it and then re-push the renamed local branch.
+#
+
 OLD_BRAHCN="${1}"
 NEW_BRANCH="${2}"
 #
