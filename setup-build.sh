@@ -3,8 +3,19 @@
 #
 # setup-build.sh
 #
-export BUILD_MACHINE="$1"
-export BUILD_TARGET="$2"
+if [ ! "$1" = "" ] ; then 
+    export BUILD_MACHINE="$1"
+elif [ "$BUILD_MACHINE" = "" ] ; then 
+    echo -e "ERROR: env var BUILD_MACHINE undefine!"
+    exit 1
+fi 
+if [ ! "$2" = "" ] ; then 
+    export BUILD_TARGET="$2"
+elif [ "$BUILD_TARGET" = "" ] ; then 
+    echo -e "ERROR: env var BUILD_TARGET undefine!"
+    exit 2
+fi
+
 export FILE_BUILD_COMPLETE=".build_complete"
 
 #if [ \("${BUILD_MACHINE}" = "" \)  -o  \( "${BUILD_TARGET}" = "" \) ] ; then
