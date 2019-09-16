@@ -20,8 +20,8 @@ export FILE_BUILD_COMPLETE=".build_complete"
 
 #if [ \("${BUILD_MACHINE}" = "" \)  -o  \( "${BUILD_TARGET}" = "" \) ] ; then
 if [[ ( "${BUILD_MACHINE}" = "" ) ||  ( "${BUILD_TARGET}" = "" ) ]] ; then
-
     echo -e "\nERROR: incomplete input found!\n"
+    exit 3
 else
     echo -e "\nBUILD_MACHINE=${BUILD_MACHINE}"
     echo -e "BUILD_TARGET=${BUILD_TARGET}\n"
