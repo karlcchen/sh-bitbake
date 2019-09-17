@@ -3,7 +3,7 @@
 # ln-diag-initramfs-images.sh
 #
 DIAG_INITRAMFS_NAME="diag-kchen-image-initramfs"
-DIAG_INITRAMFS_NAME="diag-image-initramfs"
+# DIAG_INITRAMFS_NAME="diag-image-initramfs"
 
 SRC_IMGAE="soniccorex-image-sunup-initramfs-${BUILD_MACHINE}.cpio.gz"
 DEST_IMAGE="${DIAG_INITRAMFS_NAME}-${BUILD_MACHINE}.cpio.gz"
