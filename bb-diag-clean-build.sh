@@ -15,4 +15,4 @@ if [ $? -ne 0 ] ; then
     exit 1
 fi 
 #
-~/sh-bitbake/bb-diag.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 | ${TEE_LOG} 
+~/sh-bitbake/bb-diag.sh $1 $2 $3 $4 $5 $6 $7 $8 $9
