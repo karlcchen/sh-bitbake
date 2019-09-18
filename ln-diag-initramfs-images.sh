@@ -23,6 +23,7 @@ fi
 #
 rm -f ${DEST_IMAGE}
 if [ $? -ne 0 ] ; then 
+    pwd
     echo -e "\nERROR: \"rm -f ${DEST_IMAGE}\n"
     popd 
     return 3 
@@ -30,6 +31,7 @@ fi
 #
 ln -s ${SRC_IMGAE} ${DEST_IMAGE}
 if [ $? -ne 0 ] ; then 
+    pwd
     echo -e "\nERROR: \"ln -s ${SRC_IMGAE} ${DEST_IMAGE}\" failed!\n"
     popd
     return 4 
