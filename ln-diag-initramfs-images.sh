@@ -14,7 +14,7 @@ if [ "$1" = "" ] ; then
     return 1 
 fi 
 #
-pushd .
+pushd . >/dev/null
 source ~/sh-bitbake/cd-deploy-images.sh $1
 if [ $? -ne 0 ] ; then 
     popd 
@@ -41,4 +41,4 @@ echo
 ls -l ${SRC_IMGAE} 
 ls -l ${DEST_IMAGE}
 echo 
-popd 
+popd >/dev/null
