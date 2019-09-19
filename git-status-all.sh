@@ -1,12 +1,6 @@
 #!/bin/bash
 #
 #
-DIR_BASE="SonicCoreX"
-source cdjump "${DIR_BASE}" "${DIR_BASE}/projects"
-if [ $? -ne 0 ] ; then 
-    printf "\nERROR: cdjump %s failed!\n" "${DIR_BASE}"
-    exit 1 
-fi 
 
 # remove ".git" at ned of pathname
 CD_LIST=`dname ".git" | sed "s/\.git//g"`
