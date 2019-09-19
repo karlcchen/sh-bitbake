@@ -10,7 +10,7 @@ if [ $? -ne 0 ] ; then
     exit 1 
 fi 
 
-~/sh-bitbakes/git-status-all.sh 
+~/sh-bitbake/git-status-all.sh 
 popd >/dev/null
 
 
