@@ -6,6 +6,7 @@
 DEST_DEV="${1}"   # can be skipped and auto found
 MACHINE_TYPE="${2}" # can be skipped and auto found
 OPT="-f"
+BMAP_CMD=~/sh-bitbake/bmap-tool-copy-wic2.sh 
 
 if [ "${MACHINE_TYPE}" = "" ] ; then 
     export BUILD_MACHINE_TYPE_DIR="./build_output/deploy/images/"
@@ -51,4 +52,4 @@ fi
 #fi 
 #
 
-~/sh-bitbake/bmap-tool-copy-wic2.sh "${MACHINE_TYPE}" "${DEST_DEV}" "${OPT}"  
+${BMAP_CMD} "${MACHINE_TYPE}" "${DEST_DEV}" "${OPT}"

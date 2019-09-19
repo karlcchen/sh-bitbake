@@ -2,6 +2,7 @@
 #
 # bmap-tool-copy-wic2.sh
 #
+VERBOSE=0
 FORCE_FLAG=0
 MACHINE_TYPE=""
 MIN_DRIVE_CAP=3
@@ -93,19 +94,27 @@ fi
 
 # umount all mount device 
 # TODO: this mab be skippped
-for mnt_name in ${DEST_DEV}1 ${DEST_DEV}2 ${DEST_DEV}3 ${DEST_DEV}4
+
+DEST_DEV_LIST=`sudo fdisk -l | awk '{print $1}' | grep "${DEST_DEV}"`
+MNT_DEV_LIST=`sudo mount | awk '{print $1}' | grep "${DEST_DEV}"` 
+
+#for mnt_name in ${DEST_DEV}1 ${DEST_DEV}2 ${DEST_DEV}3 ${DEST_DEV}4
+#for mnt_name in ${DEST_DEV_LIST}
+for mnt_name in ${MNT_DEV_LIST}
 do 
-    echo "INFO: sudo umount ${mnt_name}..."
-    sudo umount ${mnt_name}
-    if [ $? -ne 0 ] ; then 
-	if [ $FORCE_FLAG -eq 0 ] ; then 
-	    echo -e "\nERROR: sudo umount ${mnt_name} failed!\n" 
-	    echo -e "INFO: you may use '-f' (as first argument) to force write to ${DEST_DEV} when umount failed"
-	    exit 7
-	else 
-	    echo -e "INFO: sudo umount ${mnt_name} failed, but ignored..." 
-	fi 
-    fi 
+    if [ -e ${mnt_name} ] ; then 
+        echo "INFO: sudo umount ${mnt_name}..."
+    	sudo umount ${mnt_name}
+	if [ $? -ne 0 ] ; then 
+	    if [ $FORCE_FLAG -eq 0 ] ; then 
+	        echo -e "\nERROR: sudo umount ${mnt_name} failed!\n" 
+	        echo -e "INFO: you may use '-f' (as first argument) to force write to ${DEST_DEV} when umount failed"
+	        exit 7
+	    else 
+	        echo -e "INFO: sudo umount ${mnt_name} failed, but ignored..." 
+	    fi 
+        fi 
+    fi 	
 done 
 
 if [ -f "${INPUT_FILENAME}" ] ; then
