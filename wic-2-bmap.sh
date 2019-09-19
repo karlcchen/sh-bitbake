@@ -10,11 +10,11 @@ OPT="-f"
 if [ "${MACHINE_TYPE}" = "" ] ; then 
     export BUILD_MACHINE_TYPE_DIR="./build_output/deploy/images/"
     if [ ! -d "${BUILD_MACHINE_TYPE_DIR}" ] ; then 
-	printf "\nINFO: not in build directory...\n" 
+	printf "\nINFO: 1st choice path: \"%s\" not found!" "${BUILD_MACHINE_TYPE_DIR}"
   	export BUILD_MACHINE_TYPE_DIR="./images/"	
+      	printf "\nINFO: search for 2nd choice path: \"%s\"\n" "${BUILD_MACHINE_TYPE_DIR}"
         if [ ! -d "${BUILD_MACHINE_TYPE_DIR}" ] ; then 
-            pwd
-            printf "\nERROR: must be in knwonw board type directory!\n\n" 
+      	    printf "ERROR: path \"%s\" not found!\n\n" "${BUILD_MACHINE_TYPE_DIR}"
             exit 1       
         fi 
     fi 
