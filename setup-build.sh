@@ -7,13 +7,13 @@ if [ ! "$1" = "" ] ; then
     export BUILD_MACHINE="$1"
 elif [ "$BUILD_MACHINE" = "" ] ; then 
     echo -e "ERROR: env var BUILD_MACHINE undefine!"
-    exit 1
+    return 1
 fi 
 if [ ! "$2" = "" ] ; then 
     export BUILD_TARGET="$2"
 elif [ "$BUILD_TARGET" = "" ] ; then 
     echo -e "ERROR: env var BUILD_TARGET undefine!"
-    exit 2
+    return 2
 fi
 
 export FILE_BUILD_COMPLETE=".build_complete"
@@ -21,7 +21,7 @@ export FILE_BUILD_COMPLETE=".build_complete"
 #if [ \("${BUILD_MACHINE}" = "" \)  -o  \( "${BUILD_TARGET}" = "" \) ] ; then
 if [[ ( "${BUILD_MACHINE}" = "" ) ||  ( "${BUILD_TARGET}" = "" ) ]] ; then
     echo -e "\nERROR: incomplete input found!\n"
-    exit 3
+    return 3
 else
     echo -e "\nBUILD_MACHINE=${BUILD_MACHINE}"
     echo -e "BUILD_TARGET=${BUILD_TARGET}\n"
