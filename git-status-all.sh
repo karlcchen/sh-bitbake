@@ -46,5 +46,5 @@ do
     popd >/dev/null
 done
 
-printf "\n= git-status-all.sh DONE ===\n"
+printf "\n=====  git-status-all.sh DONE  =====\n"
 printf " %d modified git repo found\n\n" ${N_FOUND}
