@@ -1,4 +1,4 @@
-#!/bin/bash
+# to be sourced
 #
 # setup-diag.sh
 #
@@ -15,7 +15,8 @@ if [ "$1" == "" ] ; then
     printf "tz270 or mount-ritter\n"
     printf "tz270 or palomar-mountain\n"
     printf "tz170 or loma-prieta\n\n"
-    exit 1
+    return 1
+#    exit 1
 fi 
 
 export BUILD_MACHINE="$1"
@@ -26,7 +27,12 @@ shift 1
 
 export BUILD_TARGET="diag"
 export BUILD_PROJECT="lithium"
+#export BUILD_PRODUCT="tz-670"
+export BUILD_PRODUCT=""
+export BUILD_CONF="dev"
+export BUILD_SDKMACHINE=""
+export BUILD_TUNE=""
 # 
-# source ~/sh-bitbake/setup-build.sh ${BUILD_MACHINE} ${BUILD_TARGET} ${BUILD_PROJECT} 
-source ~/sh-bitbake/setupenv-build.sh 
+source ~/sh-bitbake/setupenv-build.sh ${BUILD_MACHINE} ${BUILD_TARGET} ${BUILD_PROJECT} 
+#source ~/sh-bitbake/setupenv-build.sh 
 

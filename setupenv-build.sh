@@ -1,7 +1,6 @@
-#
 # for being 'source'd file, not to be execuated by shell 
 #
-# setup-build.sh
+# setupenv-build.sh
 #
 
 if [ "$1" = "" ] ; then 
@@ -18,19 +17,29 @@ if [ "$1" = "" ] ; then
         printf "\nERROR: env var BUILD_PROJECT undefine!\n"
         return 3
     fi
+    if [ "${BUILD_PRODUCT}" = "" ] ; then 
+        printf "\nINFO: env var BUILD_PRODUCT undefine!\n"
+#
+#        printf "\nERROR: env var BUILD_PRODUCT undefine!\n"
+#        return 4
+    fi
+    if [ "${BUILD_CONF}" = "" ] ; then 
+        printf "\nERROR: env var BUILD_CONF undefine!\n"
+        return 5
+    fi
 else 
 # expect three env vars defined
     export BUILD_MACHINE="$1"
     if [ "$2" = "" ] ; then 
         printf "\nERROR: BUILD_TARGET not found in 2nd argument!\n"
-        return 4
+        return 6
     elif [ "$BUILD_TARGET" = "" ] ; then 
         export BUILD_TARGET="$2"
     fi
 
     if [ "$3" = "" ] ; then 
         echo -e "ERROR: BUILD_PROJECT not found in 3rd argument!"
-        return 5
+        return 7
     elif [ "$BUILD_PROJECT" = "" ] ; then 
         export BUILD_PROJECT="$3"
     fi
@@ -51,7 +60,8 @@ else
     #    exit 1
     else
 	rm -f ${FILE_BUILD_COMPLETE}
-        PROJECT=${BUILD_PROJECT} MACHINE=${BUILD_MACHINE} PRODUCT="" CONF=dev source ./setup.sh build.${BUILD_TARGET}.${BUILD_MACHINE}
+        PROJECT="${BUILD_PROJECT}" MACHINE="${BUILD_MACHINE}" PRODUCT="${BUILD_PRODUCT}" CONF="${BUILD_CONF}" source ./setup.sh build.${BUILD_TARGET}.${BUILD_MACHINE}
+        # PROJECT="${BUILD_PROJECT}" MACHINE="${BUILD_MACHINE}" PRODUCT="${BUILD_PRODUCT}" CONF="${BUILD_CONF}" source ./setup.sh
         if [ $? -ne 0 ] ; then 
 	    echo -e "\nERROR: setup bitbake build environment: ${BUILD_TARGET}.${BUILD_MACHINE} failed!\n" 
 	#    exit 2

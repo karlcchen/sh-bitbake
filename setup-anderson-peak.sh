@@ -1,2 +1,4 @@
 #!/bin/bash
-PROJECT=lithium MACHINE=anderson-peak PRODUCT="" CONF=dev source ./setup.sh
+#
+#
+PROJECT="lithium" MACHINE="anderson-peak" PRODUCT="tz670" CONF="dev" source ./setup.sh
