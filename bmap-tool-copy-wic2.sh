@@ -123,6 +123,9 @@ if [ -f "${INPUT_FILENAME}" ] ; then
         echo -e "\nERROR: 'sudo bmaptool copy ${INPUT_FILENAME} ${DEST_DEV}' failed!\n" 
         exit 8
     fi 
+    ABS_INPUT_FILENAME=`realpath ${INPUT_FILENAME}`
+    HOST_NAME=`hostname`
+    USER_NAME=`whoami`
     TMP_MNT_NAME="./temp-part1"
     IMG_INFO_FILENAME="${TMP_MNT_NAME}/${MACHINE_TYPE}.info"     
     mkdir -p ${TMP_MNT_NAME}
@@ -141,10 +144,12 @@ if [ -f "${INPUT_FILENAME}" ] ; then
         exit 10
     fi 
 #
-    echo "# MACHINE_TYPE =${MACHINE_TYPE}"   | sudo tee -a ${IMG_INFO_FILENAME}
-    echo "# BUILD_TYPE   =diag-linux"        | sudo tee -a ${IMG_INFO_FILENAME}
-    echo "# WIC_FILENAME =${INPUT_FILENAME}" | sudo tee -a ${IMG_INFO_FILENAME}
-    echo "# DATE         =`date`"            | sudo tee -a ${IMG_INFO_FILENAME} 
+    echo "# MACHINE_TYPE =${MACHINE_TYPE}"       | sudo tee -a ${IMG_INFO_FILENAME}
+    echo "# BUILD_TYPE   =diag-linux"            | sudo tee -a ${IMG_INFO_FILENAME}
+    echo "# HOST_NAME    =${HOST_NAME}"          | sudo tee -a ${IMG_INFO_FILENAME}
+    echo "# USER_NAME    =${USER_NAME}"          | sudo tee -a ${IMG_INFO_FILENAME}
+    echo "# WIC_FILENAME =${ABS_INPUT_FILENAME}" | sudo tee -a ${IMG_INFO_FILENAME}
+    echo "# DATE         =`date`"                | sudo tee -a ${IMG_INFO_FILENAME} 
 #
     sync
     if [ $? -ne 0 ] ; then 
