@@ -7,27 +7,28 @@
 # you need to delete it and then re-push the renamed local branch.
 #
 
-OLD_BRAHCN="${1}"
+OLD_BRANCN="${1}"
 NEW_BRANCH="${2}"
+GIT_REMOTE="sonicgit"
 #
-git checkout ${OLD_BRAHCN}
+git checkout ${OLD_BRANCH}
 if [ $? -ne 0 ] ; then 
-    echo -e "ERROR: git checkout ${OLD_BRAHCN} failed!" 
+    echo -e "ERROR: git checkout ${OLD_BRANCN} failed!" 
     exit 1
 fi 
-git branch -m ${NEW_BRAHCN}
+git branch -m ${NEW_BRANCH}
 if [ $? -ne 0 ] ; then 
-    echo -e "ERROR: git branch -m ${NEW_BRAHCN}"
+    echo -e "ERROR: git branch -m ${NEW_BRANCN}"
     exit 2
 fi 
-git push origin --delete ${OLD_BRAHCN}
+git push ${GIT_REMOTE} --delete ${OLD_BRANCN}
 if [ $? -ne 0 ] ; then 
-    echo -e "ERROR: git push origin --delete ${OLD_BRAHCN}"
+    echo -e "ERROR: git push origin --delete ${OLD_BRANCN}"
     exit 3
 fi 
-git push origin -u ${NEW_BRAHCN}
+git push ${GIT_REMOTE} -u ${NEW_BRANCN}
 if [ $? -ne 0 ] ; then 
-    echo -e "ERROR: git push origin -u ${NEW_BRAHCN}"
+    echo -e "ERROR: git push origin -u ${NEW_BRANCN}"
     exit 4
 fi 
 
