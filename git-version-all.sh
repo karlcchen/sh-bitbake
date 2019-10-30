@@ -22,8 +22,11 @@ fi
 #echo 
 #
 N_COUNT=0
-rm prj-id.txt
-rm prj-branch.txt
+CUR_DIR="`pwd`"
+COMMIT_VER_ID_FNAME="${CUR_DIR}/prj-ver-id.txt"
+COMMIT_BRANCH_FNAME="${CUR_DIR}/prj-branch.txt"
+rm -f ${COMMIT_VER_ID_FNAME}
+rm -f ${COMMIT_BRANCH_FNAME}
 for cd_name in ${CD_LIST}
 do 
     N_COUNT=$((N_COUNT+1))
@@ -33,17 +36,17 @@ do
         printf "\n ERROR: #%d, cd %s failed!\n" ${N_COUNT} "${cd_name}"
         exit 3 
     fi 
-    GIT_COMMIT_ID="`git log --decorate=short -p -1 | grep commit | awk '{print $2 }'`"
-    GIT_COMMIT_BRANCH="`git log --decorate=short -p -1 | grep commit | awk '{print $4}'`"
+    GIT_COMMIT_ID="`git log --decorate=short -p -1 | head -n1 | awk '{print $2 }'`"
+    GIT_COMMIT_BRANCH="`git log --decorate=short -p -1 | head -n1 | awk '{print $4}' | sed s/\,//g`"
     if [ $? -ne 0 ] ; then 
         printf "\nERROR: #%d, \"git log -p -1 | grep commit\" failed at DIR: %s\n" ${N_COUNT} "${cd_name}"
         exit 4 
     fi 
     printf "%d %s %s %s\n" ${N_COUNT} "${cd_name}" "${GIT_COMMIT_ID}" "${GIT_COMMIT_BRANCH}"
-    printf "%s %s\n" "${cd_name}" "${GIT_COMMIT_ID}"  >> prj-id.txt
-    printf "%s %s\n" "${cd_name}" "${GIT_COMMIT_BRANCH}" >>prj-branch.txt
+    printf "%s %s\n" "${cd_name}" "${GIT_COMMIT_ID}"     >>${COMMIT_VER_ID_FNAME}
+    printf "%s %s\n" "${cd_name}" "${GIT_COMMIT_BRANCH}" >>${COMMIT_BRANCH_FNAME}
     popd >/dev/null
 done
 
 printf "\n=====  git-version-all.sh DONE  =====\n"
-
+ls -l prj*.txt
