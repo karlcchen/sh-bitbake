@@ -42,10 +42,6 @@ do
         GIT_COMMIT_ID="`git log --decorate=short -p -1 | head -n1 | awk '{print $3 }'`"
         GIT_COMMIT_BRANCH="`git log --decorate=short -p -1 | head -n1 | awk '{print $5}' | sed s/\,//g`"
     fi 
-    if [ $? -ne 0 ] ; then 
-        printf "\nERROR: #%d, \"git log -p -1 | grep commit\" failed at DIR: %s\n" ${N_COUNT} "${cd_name}"
-        exit 4 
-    fi 
     printf "%d %s %s %s\n" ${N_COUNT} "${cd_name}" "${GIT_COMMIT_ID}" "${GIT_COMMIT_BRANCH}"
     printf "%s %s\n" "${cd_name}" "${GIT_COMMIT_ID}"     >>${COMMIT_VER_ID_FNAME}
     printf "%s %s\n" "${cd_name}" "${GIT_COMMIT_BRANCH}" >>${COMMIT_BRANCH_FNAME}
