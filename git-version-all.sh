@@ -38,9 +38,9 @@ do
     fi 
     GIT_COMMIT_ID="`git log --decorate=short -p -1 | head -n1 | awk '{print $2 }'`"
     GIT_COMMIT_BRANCH="`git log --decorate=short -p -1 | head -n1 | awk '{print $4}' | sed s/\,//g`"
-    if [ "${GIT_COMMIT_ID}" = "->" ] ; then 
-        GIT_COMMIT_ID="`git log --decorate=short -p -1 | head -n1 | awk '{print $3 }'`"
+    if [ "${GIT_COMMIT_BRANCH}" = "->" ] ; then 
         GIT_COMMIT_BRANCH="`git log --decorate=short -p -1 | head -n1 | awk '{print $5}' | sed s/\,//g`"
+        printf "* "
     fi 
     printf "%d %s %s %s\n" ${N_COUNT} "${cd_name}" "${GIT_COMMIT_ID}" "${GIT_COMMIT_BRANCH}"
     printf "%s %s\n" "${cd_name}" "${GIT_COMMIT_ID}"     >>${COMMIT_VER_ID_FNAME}

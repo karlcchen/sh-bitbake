@@ -22,11 +22,6 @@ fi
 #echo 
 #
 N_COUNT=0
-CUR_DIR="`pwd`"
-COMMIT_VER_ID_FNAME="${CUR_DIR}/prj-ver-id.txt"
-COMMIT_BRANCH_FNAME="${CUR_DIR}/prj-branch.txt"
-rm -f ${COMMIT_VER_ID_FNAME}
-rm -f ${COMMIT_BRANCH_FNAME}
 for cd_name in ${CD_LIST}
 do 
     N_COUNT=$((N_COUNT+1))
@@ -36,12 +31,13 @@ do
         printf "\n ERROR: #%d, cd %s failed!\n" ${N_COUNT} "${cd_name}"
         exit 3 
     fi 
-    git branch 
+    CUR_DIR="`pwd`"
+    printf "%d %s\n" "${N_COUNT}" "${CUR_DIR}"
+    git branch
     if [ $? -ne 0 ] ; then 
         printf "\nERROR: #%d, \"git branch\" failed at DIR: %s\n" ${N_COUNT} "${cd_name}"
         exit 4 
     fi 
-    printf "%d %s %s %s\n" ${N_COUNT} "${cd_name}" "${GIT_COMMIT_ID}" "${GIT_COMMIT_BRANCH}"
     popd >/dev/null
 done
 
