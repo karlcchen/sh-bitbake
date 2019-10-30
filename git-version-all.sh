@@ -38,7 +38,7 @@ do
         printf "\nERROR: #%d, \"git log -p -1 | grep commit\" failed at DIR: %s\n" ${N_COUNT} "${cd_name}"
         exit 4 
     fi 
-    printf "%d %s\t%s\n" ${N_COUNT} "${cd_name}" "${GIT_COMMIT_ID}" "${GIT_COMMIT_BRANCH}"
+    printf "%d %s %s %s\n" ${N_COUNT} "${cd_name}" "${GIT_COMMIT_ID}" "${GIT_COMMIT_BRANCH}"
     popd >/dev/null
 done
 
