@@ -3,6 +3,9 @@
 # git-version-all.sh
 #
 
+BB_DIR="`dirname $0`"
+BB_DIR="`realpath ${BB_DIR}`"
+
 if [ ! "${1}" = "" ] ; then 
     cd $1
     if [ $? -ne 0 ] ; then 
@@ -11,11 +14,13 @@ if [ ! "${1}" = "" ] ; then
     fi 
 fi 
 
-CD_LIST="`~/sh-bitbake/git-dirs.sh`"
+CD_LIST="`${BB_DIR}/git-dirs.sh`"
 if [ $? -ne 0 ] ; then 
-    printf "\nERROR: ~/sh-bitbake/git-dirs.sh %s failed!\n" "${1}"
+    printf "\nERROR: ${BB_DIR}/git-dirs.sh %s failed!\n" "${1}"
     exit 2
 fi 
+
+PRJ_NAME="`${BB_DIR}/get-prj-name.sh`"
 
 # for debug only 
 #echo 
@@ -24,8 +29,8 @@ fi
 #
 N_COUNT=0
 CUR_DIR="`pwd`"
-COMMIT_VER_ID_FNAME="${CUR_DIR}/prj-ver-id.txt"
-COMMIT_BRANCH_FNAME="${CUR_DIR}/prj-branch.txt"
+COMMIT_VER_ID_FNAME="${CUR_DIR}/prj-ver-id-${PRJ_NAME}.txt"
+COMMIT_BRANCH_FNAME="${CUR_DIR}/prj-branch-${PRJ_NAME}.txt"
 rm -f ${COMMIT_VER_ID_FNAME}
 rm -f ${COMMIT_BRANCH_FNAME}
 for cd_name in ${CD_LIST}
