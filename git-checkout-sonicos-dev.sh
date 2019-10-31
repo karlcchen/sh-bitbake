@@ -1,4 +1,6 @@
 #!/bin/bash
+#
+#
 BASE_DIR1="SonicCoreX/projects/lithium/sonicgit/soniccore/componentsx/meta-soniccorex-bsp"
 BASE_DIR2="SonicCoreX/projects/lithium/sonicgit/bsp/vendor-sdk/Marvell/UMSD"
 REMOTE_DEV_BRANCH="remotes/m/WIP/soniccorex/lithium/sonicos/6.5.4/dev"

@@ -27,6 +27,7 @@ PRJ_NAME="`${BB_DIR}/get-prj-name.sh`"
 #echo "${CD_LIST}"
 #echo 
 #
+
 N_COUNT=0
 CUR_DIR="`pwd`"
 COMMIT_VER_ID_FNAME="${CUR_DIR}/prj-ver-id-${PRJ_NAME}.txt"
