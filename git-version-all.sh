@@ -54,8 +54,9 @@ do
     popd >/dev/null
 done
 
+rm -f ${COMMIT_VER_ID_FNAME}.srt ${COMMIT_BRANCH_FNAME}.srt
 cat ${COMMIT_VER_ID_FNAME} | sort > ${COMMIT_VER_ID_FNAME}.srt
 cat ${COMMIT_BRANCH_FNAME} | sort > ${COMMIT_BRANCH_FNAME}.srt
 
 printf "\n=====  git-version-all.sh DONE  =====\n"
-ls -l prj*.txt
+ls -l prj-*
