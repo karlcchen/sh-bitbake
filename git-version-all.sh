@@ -1,5 +1,6 @@
 #!/bin/bash
 #
+# git-version-all.sh
 #
 
 if [ ! "${1}" = "" ] ; then 
@@ -47,6 +48,9 @@ do
     printf "%s %s\n" "${cd_name}" "${GIT_COMMIT_BRANCH}" >>${COMMIT_BRANCH_FNAME}
     popd >/dev/null
 done
+
+cat ${COMMIT_VER_ID_FNAME} | sort > ${COMMIT_VER_ID_FNAME}.srt
+cat ${COMMIT_BRANCH_FNAME} | sort > ${COMMIT_BRANCH_FNAME}.srt
 
 printf "\n=====  git-version-all.sh DONE  =====\n"
 ls -l prj*.txt
