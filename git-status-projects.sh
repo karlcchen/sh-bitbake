@@ -1,6 +1,10 @@
 #!/bin/bash
 #
 #
+
+BB_DIR="`dirname $0`"
+BB_DIR="`realpath ${BB_DIR}`"
+
 DIR_BASE="SonicCoreX"
 pushd . >/dev/null
 source cdjump "${DIR_BASE}" "${DIR_BASE}/projects"
@@ -10,7 +14,7 @@ if [ $? -ne 0 ] ; then
     exit 1 
 fi 
 
-~/sh-bitbake/git-status-all.sh 
+${BB_DIR}/git-status-all.sh 
 popd >/dev/null
 
 

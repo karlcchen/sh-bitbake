@@ -2,6 +2,10 @@
 #
 # wic-from-tftpboot-2-bmap.sh
 #
+
+BB_DIR="`dirname $0`"
+BB_DIR="`realpath ${BB_DIR}`"
+
 MACHINE_TYPE="${1}"
 DEST_DEV="${2}"
 OPT="-f"
@@ -17,4 +21,4 @@ if [ "${DEST_DEV}" = "" ] ; then
     exit 2 
 fi 
 
-~/sh-bitbake/bmap-tool-copy-wic2.sh ${OPT} ${TFTPBOOT_DEST}/diag-minimal-${MACHINE_TYPE}.wic ${DEST_DEV}
+${BB_DIR}/bmap-tool-copy-wic2.sh ${OPT} ${TFTPBOOT_DEST}/diag-minimal-${MACHINE_TYPE}.wic ${DEST_DEV}
