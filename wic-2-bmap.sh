@@ -3,10 +3,13 @@
 # wic-2-bmap.sh
 #
 
+BB_DIR="`dirname $0`"
+BB_DIR="`realpath ${BB_DIR}`"
+
 DEST_DEV="${1}"   # can be skipped and auto found
 MACHINE_TYPE="${2}" # can be skipped and auto found
 OPT="-f"
-BMAP_CMD=~/sh-bitbake/bmap-tool-copy-wic2.sh 
+BMAP_CMD=${BB_DIR}/bmap-tool-copy-wic2.sh 
 
 if [ "${MACHINE_TYPE}" = "" ] ; then 
     export BUILD_MACHINE_TYPE_DIR="./build_output/deploy/images/"
