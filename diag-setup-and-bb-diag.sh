@@ -10,15 +10,18 @@
 #fi
 #
 
-source ~/sh-bitbake/setup-diag-loma-prieta.sh
+BB_DIR="`dirname $0`"
+BB_DIR="`realpath ${BB_DIR}`"
+
+source ${BB_DIR}/setup-diag-loma-prieta.sh
 if [ $? -ne 0 ] ; then 
-    echo -e "\nERROR: source ~/sh-bitbake/setup-diag-loma-prieta.sh failed!"
-    exit 5 
+    echo -e "\nERROR: source ${BB_DIR}/setup-diag-loma-prieta.sh failed!"
+    exit 1 
 fi
 
-~/sh-bitbake/bb-diag.sh
+${BB_DIR}/bb-diag.sh
 if [ $? -ne 0 ] ; then 
-    echo -e "\nERROR: ~/sh-bitbake/bb-diag.sh failed!"
-    exit 6
+    echo -e "\nERROR: ${BB_DIR}/bb-diag.sh failed!"
+    exit 2
 fi
 

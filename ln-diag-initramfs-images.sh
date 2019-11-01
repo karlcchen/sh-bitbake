@@ -2,6 +2,10 @@
 #
 # ln-diag-initramfs-images.sh
 #
+
+BB_DIR="`dirname $0`"
+BB_DIR="`realpath ${BB_DIR}`"
+
 DIAG_INITRAMFS_NAME="diag-kchen-image-initramfs"
 # DIAG_INITRAMFS_NAME="diag-image-initramfs"
 
@@ -15,7 +19,7 @@ if [ "$1" = "" ] ; then
 fi 
 #
 pushd . >/dev/null
-source ~/sh-bitbake/cd-deploy-images.sh $1
+source ${BB_DIR}/cd-deploy-images.sh $1
 if [ $? -ne 0 ] ; then 
     popd 
     return 2 

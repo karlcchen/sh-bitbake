@@ -3,6 +3,9 @@
 # setup-diag.sh
 #
 
+BB_DIR="`dirname $0`"
+BB_DIR="`realpath ${BB_DIR}`"
+
 if [ "$1" == "" ] ; then 
     printf "\nERROR: need BUILD_MACHINE as 1st argument\n"
     printf "\nFor example: \n\t ./setup-diag.sh anderson-peak\n\n"
@@ -33,6 +36,6 @@ export BUILD_CONF="dev"
 export BUILD_SDKMACHINE=""
 export BUILD_TUNE=""
 # 
-source ~/sh-bitbake/setupenv-build.sh ${BUILD_MACHINE} ${BUILD_TARGET} ${BUILD_PROJECT} 
-#source ~/sh-bitbake/setupenv-build.sh 
+source ${BB_DIR}/setupenv-build.sh ${BUILD_MACHINE} ${BUILD_TARGET} ${BUILD_PROJECT} 
+#source ${BB_DIR}/setupenv-build.sh 
 

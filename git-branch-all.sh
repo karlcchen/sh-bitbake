@@ -2,6 +2,10 @@
 #
 #
 
+BB_DIR="`dirname $0`"
+BB_DIR="`realpath ${BB_DIR}`"
+export BB_DIR
+
 if [ ! "${1}" = "" ] ; then 
     cd $1
     if [ $? -ne 0 ] ; then 
@@ -10,9 +14,9 @@ if [ ! "${1}" = "" ] ; then
     fi 
 fi 
 
-CD_LIST="`~/sh-bitbake/git-dirs.sh`"
+CD_LIST="`${BB_DIR}/git-dirs.sh`"
 if [ $? -ne 0 ] ; then 
-    printf "\nERROR: ~/sh-bitbake/git-dirs.sh %s failed!\n" "${1}"
+    printf "\nERROR: ${BB_DIR}/git-dirs.sh %s failed!\n" "${1}"
     exit 2
 fi 
 
