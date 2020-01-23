@@ -4,6 +4,11 @@
 
 BB_DIR="`dirname $0`"
 BB_DIR="`realpath ${BB_DIR}`"
+
+echo
+echo "BB_DIR=${BB_DIR}" 
+echo
+
 export BB_DIR
 
 if [ ! "${1}" = "" ] ; then 
@@ -21,9 +26,9 @@ if [ $? -ne 0 ] ; then
 fi 
 
 # for debug only 
-#echo 
-#echo "${CD_LIST}"
-#echo 
+echo 
+echo "${CD_LIST}"
+echo 
 #
 N_COUNT=0
 for cd_name in ${CD_LIST}
