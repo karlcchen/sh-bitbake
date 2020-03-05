@@ -1,7 +1,15 @@
 #!/bin/bash
 #
-BB_PROJECT="diag-minimal"
-export FILE_BUILD_COMPLETE="../.build_complete"
+
+if [ "$1" == "" ] ; then 
+    BUILD_CONF="standard"
+else
+    BUILD_CONF="minimal"
+fi 
+
+BB_PROJECT="diag-${BUILD_CONF}"
+
+export FILE_BUILD_COMPLETE="../.build_complete-${BUILD_CONF}"
 
 LOG_FILE="${BB_PROJECT}.log"
 TEE_LOG="tee --append ${LOG_FILE}"
