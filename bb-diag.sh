@@ -4,7 +4,7 @@
 if [ "$1" == "" ] ; then 
     BUILD_CONF="standard"
 else
-    BUILD_CONF="minimal"
+    BUILD_CONF="${1}"
 fi 
 
 BB_PROJECT="diag-${BUILD_CONF}"
