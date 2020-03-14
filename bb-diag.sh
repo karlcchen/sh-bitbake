@@ -5,6 +5,7 @@ if [ "$1" == "" ] ; then
     BUILD_CONF="standard"
 else
     BUILD_CONF="${1}"
+    shift 1
 fi 
 
 BB_PROJECT="diag-${BUILD_CONF}"
