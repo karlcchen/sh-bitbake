@@ -40,14 +40,11 @@ do
         printf "\nERROR: #%d, \"git status\" failed at DIR: %s\n" ${N_COUNT} "${cd_name}"
         exit 4 
     fi 
-    echo "${GIT_STATUS}" | grep "modified" >/dev/null
-    if [ $? -eq 0 ] ; then 
-        printf "\n=== #%d, DIR %s ===\n" ${N_COUNT} "${cd_name}"
-        echo "${GIT_STATUS}"               
-        N_FOUND=$((N_FOUND+1))
-    fi 
+    printf "\n=== #%d, DIR %s ===\n" ${N_COUNT} "${cd_name}"
+    echo "${GIT_STATUS}"               
+    N_FOUND=$((N_FOUND+1))
     popd >/dev/null
 done
 
 printf "\n=====  git-status-all.sh DONE  =====\n"
-printf " %d modified git repo found\n\n" ${N_FOUND}
+printf " %d git dir found\n\n" ${N_FOUND}
