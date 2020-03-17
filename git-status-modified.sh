@@ -4,7 +4,7 @@
 
 BB_DIR="`dirname $0`"
 BB_DIR="`realpath ${BB_DIR}`"
-LOOK_FOR_STR1="modified"
+LOOK_FOR_STR1="modified:"
 LOOK_FOR_STR2="on branch"
 
 if [ ! "${1}" = "" ] ; then 
