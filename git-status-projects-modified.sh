@@ -12,12 +12,11 @@ pushd . >/dev/null
 
 source ~/bin/cdjump "${DIR_BASE}" "${JUMP_TO_DIR}"
 if [ $? -ne 0 ] ; then 
-    printf "\nERROR: cdjump from %s to %s failed!\n" "${DIR_BASE}" "${DIR_BASE}/${JUMP_TO_DIR}"
+    printf "\nERROR1: cdjump from %s to %s failed!\n" "${DIR_BASE}" "${DIR_BASE}/${JUMP_TO_DIR}"
     popd >/dev/null
     exit 1 
 fi 
 
-${BB_DIR}/git-status-modified.sh 
+${BB_DIR}/git-status-modified.sh
 popd >/dev/null
-
 
