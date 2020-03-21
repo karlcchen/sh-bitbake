@@ -13,14 +13,19 @@ SEARCH_LIST="^commit ^Author: ^Date:"
 HEAD_LINES="1"
 TAIL_LINES="1"
 
-if [ "${1}" = "--rpath" ] ; then 
-    b_REALPATH=0
-    shift 1
+source "${BB_DIR}/src-setup-project-dir-list.sh"
+if [ $? -ne 0 ] ; then 
+    exit 1
 fi 
 
-if [ "${1}" = "--apath" ] ; then 
-    b_REALPATH=1
-    shift 1
+# -------------------------------------------------------------------------------------
+pushd . >/dev/null
+source ~/bin/cdjump "${DIR_BASE}" "${JUMP_TO_DIR}"
+#source ~/bin/cdjump "${DIR_BASE}" "${DIR_BASE}/${JUMP_TO_DIR}"
+if [ $? -ne 0 ] ; then 
+    printf "\nERROR1: cdjump from %s to %s failed!\n" "${DIR_BASE}" "${DIR_BASE}/${JUMP_TO_DIR}"
+    popd >/dev/null
+    exit 1 
 fi 
 
 # ------------------------------------------------------------------------------------
@@ -35,21 +40,6 @@ if [ ! "$3" = "" ] ; then
     SEARCH_LIST="$3"
 fi 
 
-# -------------------------------------------------------------------------------------
-pushd . >/dev/null
-source ~/bin/cdjump "${DIR_BASE}" "${JUMP_TO_DIR}"
-#source ~/bin/cdjump "${DIR_BASE}" "${DIR_BASE}/${JUMP_TO_DIR}"
-if [ $? -ne 0 ] ; then 
-    printf "\nERROR1: cdjump from %s to %s failed!\n" "${DIR_BASE}" "${DIR_BASE}/${JUMP_TO_DIR}"
-    popd >/dev/null
-    exit 1 
-fi 
-
-if [ ${b_REALPATH} -eq 0  ] ; then 
-    DIR_LIST=`${BB_DIR}/git-dirs.sh --rpath`
-else
-    DIR_LIST=`${BB_DIR}/git-dirs.sh --apath | xargs realpath`
-fi 
 #
 DIR_LIST2="`echo "${DIR_LIST}" | tr '\n' ' '`"
 #

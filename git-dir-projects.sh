@@ -19,11 +19,13 @@ if [ $? -ne 0 ] ; then
     exit 1 
 fi 
 
-if [ ${b_REALPATH} -eq 0 ] ; then 
-    ${BB_DIR}/git-dirs.sh
-else
-    ${BB_DIR}/git-dirs.sh | xargs realpath
+source "${BB_DIR}/src-setup-project-dir-list.sh"
+if [ $? -ne 0 ] ; then 
+    exit 1
 fi 
+
+printf "%s\n" "${DIR_LIST}"
+
 popd >/dev/null
 
 

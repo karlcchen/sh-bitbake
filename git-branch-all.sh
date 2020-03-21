@@ -4,6 +4,7 @@
 
 USE_ABS_DIR_NAME=1
 
+b_REALPATH=0
 BB_DIR="`dirname $0`"
 BB_DIR="`realpath ${BB_DIR}`"
 
@@ -12,19 +13,9 @@ BB_DIR="`realpath ${BB_DIR}`"
 #echo
 
 export BB_DIR
-
-if [ ! "${1}" = "" ] ; then 
-    cd $1
-    if [ $? -ne 0 ] ; then 
-        printf "\nERROR: cd \"%s\" failed!\n" "${1}"
-        exit 1
-    fi 
-fi 
-
-CD_LIST="`${BB_DIR}/git-dirs.sh`"
+source "${BB_DIR}/src-setup-project-dir-list.sh"
 if [ $? -ne 0 ] ; then 
-    printf "\nERROR: ${BB_DIR}/git-dirs.sh %s failed!\n" "${1}"
-    exit 2
+    exit 1
 fi 
 
 # for debug only 
@@ -34,7 +25,7 @@ fi
 #
 echo
 N_COUNT=0
-for dir_name in ${CD_LIST}
+for dir_name in ${DIR_LIST}
 do 
     N_COUNT=$((N_COUNT+1))
     pushd . >/dev/null

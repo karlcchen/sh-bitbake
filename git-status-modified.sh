@@ -2,34 +2,21 @@
 #
 #
 
-b_REALPATH=1 
+b_REALPATH=0 
 BB_DIR="`dirname $0`"
 BB_DIR="`realpath ${BB_DIR}`"
 
 # default search list 
 SEARCH_LIST="^Changes"   
 
-if [ ! "${1}" = "" ] ; then 
-    cd $1
-    if [ $? -ne 0 ] ; then 
-        printf "\nERROR1: cd \"%s\" failed!\n" "${1}"
-        exit 1
-    fi 
+source "${BB_DIR}/src-setup-project-dir-list.sh"
+if [ $? -ne 0 ] ; then 
+    exit 1
 fi 
 
 if [ ! "${2}" = "" ] ; then 
     SEARCH_LIST="${2}"
     printf "\nINFO: use Custom Search List: \"%s\"\n" "${SEARCH_LIST}"
-fi 
-
-if [ ${b_REALPATH} -eq 0 ] ; then 
-    DIR_LIST="`${BB_DIR}/git-dirs.sh`"
-else
-    DIR_LIST="`${BB_DIR}/git-dirs.sh | xargs realpath`"
-fi 
-if [ $? -ne 0 ] ; then 
-    printf "\nERROR2: ${BB_DIR}/git-dirs.sh \"%s\" failed!\n" "${1}"
-    exit 2
 fi 
 
 # for debug only 
