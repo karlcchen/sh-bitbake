@@ -15,12 +15,15 @@ if [ "${1}" = "--apath" ] ; then
     shift 1
 fi 
 
+# if the argument is "-" , skip it
 if [ ! "${1}" = "" ] ; then 
-    cd $1
-    if [ $? -ne 0 ] ; then 
-        printf "\nERROR: cd \"%s\" failed!\n" "${1}"
-        return 1
-    fi 
+    if [ ! "${1}" = "-" ] ; then 
+        cd $1
+        if [ $? -ne 0 ] ; then 
+            printf "\nERROR: cd \"%s\" failed!\n" "${1}"
+            return 1
+        fi 
+    fi
 fi 
 
 if [ ${b_REALPATH} -eq 0 ] ; then 

@@ -13,6 +13,29 @@ SEARCH_LIST="^commit ^Author: ^Date:"
 HEAD_LINES="1"
 TAIL_LINES="1"
 
+# ------------------------------------------------------------------------------------
+if [ ! "$1" = "" ] ; then 
+    HEAD_LINES="$1"
+    TAIL_LINES="$1"
+    shift 1
+fi 
+if [ ! "$1" = "" ] ; then 
+    TAIL_LINES="$1"
+    shift 1
+fi 
+if [ ! "$1" = "" ] ; then 
+    SEARCH_LIST="$1"
+    shift 1
+fi 
+
+GIT_CMD=""
+# usually, this argument "git checkout"
+if [ ! "$1" = "" ] ; then 
+#    GIT_CMD="`echo $1 | tr -d ' '`"
+    GIT_CMD="$1"
+    shift 1
+fi 
+
 # -------------------------------------------------------------------------------------
 pushd . >/dev/null
 source ~/bin/cdjump "${DIR_BASE}" "${JUMP_TO_DIR}"
@@ -23,27 +46,16 @@ if [ $? -ne 0 ] ; then
     exit 1 
 fi 
 
-source "${BB_DIR}/src-setup-project-dir-list.sh"
+# use abs path and do not "cd" to any argument if any  
+source "${BB_DIR}/src-setup-project-dir-list.sh" "--apath" "-"
 if [ $? -ne 0 ] ; then 
+    popd >/dev/null
     exit 1
-fi 
-
-# ------------------------------------------------------------------------------------
-if [ ! "$1" = "" ] ; then 
-    HEAD_LINES="$1"
-    TAIL_LINES="$1"
-fi 
-if [ ! "$2" = "" ] ; then 
-    TAIL_LINES="$2"
-fi 
-if [ ! "$3" = "" ] ; then 
-    SEARCH_LIST="$3"
 fi 
 
 #
 DIR_LIST2="`echo "${DIR_LIST}" | tr '\n' ' '`"
 #
-GIT_CMD="`echo $4 | tr -d ' '`"
 N_COUNT=0
 for dir_name in ${DIR_LIST2}
 do 
@@ -83,7 +95,8 @@ do
             fi 
         fi
     done 
-    if [ ! "$4" = "" ] ; then 
+# 
+    if [ ! "${GIT_CMD}" = "" ] ; then 
         printf "pushd . >/dev/null\n" 
         printf "cd %s\n" "${dir_name}"
 #
@@ -92,9 +105,9 @@ do
         printf "\t exit %d\n" ${N_COUNT}
         printf "fi\n"
 #
-        if [ ! "${GIT_CMD}" = "" ] ; then 
-            ARG1="`echo ${GIT_LOG_STR} | awk '{print $2}'`" 
-            printf "%s %s\n" "$4" "${ARG1}"
+        if [ ! "${GIT_CMD}" = "-" ] ; then 
+            ARG1="`echo ${GIT_LOG} | awk '{print $2}'`" 
+            printf "%s %s\n" "${GIT_CMD}" "${ARG1}"
             printf "if [ \$\? -ne 0 ] ; then\n" 
             printf "\t echo ERROR2-%d\n" ${N_COUNT}
             printf "\t exit %d\n" ${N_COUNT}
