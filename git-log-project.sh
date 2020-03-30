@@ -13,11 +13,6 @@ SEARCH_LIST="^commit ^Author: ^Date:"
 HEAD_LINES="1"
 TAIL_LINES="1"
 
-source "${BB_DIR}/src-setup-project-dir-list.sh"
-if [ $? -ne 0 ] ; then 
-    exit 1
-fi 
-
 # -------------------------------------------------------------------------------------
 pushd . >/dev/null
 source ~/bin/cdjump "${DIR_BASE}" "${JUMP_TO_DIR}"
@@ -26,6 +21,11 @@ if [ $? -ne 0 ] ; then
     printf "\nERROR1: cdjump from %s to %s failed!\n" "${DIR_BASE}" "${DIR_BASE}/${JUMP_TO_DIR}"
     popd >/dev/null
     exit 1 
+fi 
+
+source "${BB_DIR}/src-setup-project-dir-list.sh"
+if [ $? -ne 0 ] ; then 
+    exit 1
 fi 
 
 # ------------------------------------------------------------------------------------

@@ -25,6 +25,7 @@ fi
 #echo 
 #
 N_COUNT=0
+N_STASH=0
 N_FOUND=0
 N_BRANCH=0
 for dir_name in ${DIR_LIST}
@@ -58,6 +59,13 @@ do
         printf "\n=== Dir#%02d: %s\n" ${N_COUNT} "${dir_name}" 
         printf " found Branch#%02d: %s\n" ${N_BRANCH} "${GIT_BRANCH}"
     fi 
+#
+    GIT_STASH="`git stash list`"
+    if [ "${GIT_STASH}" != "" ] ; then 
+        N_STASH=$((N_STASH+1))
+        printf "\n=== Stash_Dir#%02d: %s\n" ${N_STASH} "${dir_name}" 
+        printf " found GIT_stash_list: %s\n" "${GIT_STASH}"
+    fi  
 #
     N_SEARCH=0
     for search_str in ${SEARCH_LIST}
