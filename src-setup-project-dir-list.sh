@@ -17,6 +17,7 @@ fi
 
 # if the argument is "-" , skip it
 if [ ! "${1}" = "" ] ; then 
+    echo "DEBUG: cd %1"
     if [ ! "${1}" = "-" ] ; then 
         cd $1
         if [ $? -ne 0 ] ; then 
