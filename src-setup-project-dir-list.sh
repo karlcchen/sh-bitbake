@@ -28,11 +28,12 @@ if [ ! "${1}" = "" ] ; then
 fi 
 
 if [ ${b_REALPATH} -eq 0 ] ; then 
-    DIR_LIST="`${BB_DIR}/git-dirs.sh --rpath`"
+    DIR_LIST="`${BB_DIR}/git-dirs.sh --rpath | sort`"
 else
-    DIR_LIST="`${BB_DIR}/git-dirs.sh --apath`"
+    DIR_LIST="`${BB_DIR}/git-dirs.sh --apath | sort`"
 fi 
 if [ $? -ne 0 ] ; then 
     printf "\nERROR2: ${BB_DIR}/git-dirs.sh \"%s\" failed!\n" "${1}"
     return 2
 fi 
+export DIR_LIST

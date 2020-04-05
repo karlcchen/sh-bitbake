@@ -6,14 +6,14 @@ BB_DIR="`realpath ${BB_DIR}`"
 
 echo "BB_DIR=${BB_DIR}"
 
-${BB_DIR}/bb-diag-clean.sh 
+${BB_DIR}/bb-diag-clean.sh $1
 if [ $? -ne 0 ] ; then 
     echo 
     echo "ERROR: exec ${BB_DIR}/bb-diag-clean.sh"
     echo
     exit 1
 fi 
-${BB_DIR}/bb-diag.sh 
+${BB_DIR}/bb-diag.sh $1
 if [ $? -ne 0 ] ; then 
     echo
     echo "ERROR: exec ${BB_DIR}/bb-diag.sh" 

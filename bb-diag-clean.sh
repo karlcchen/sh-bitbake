@@ -1,16 +1,23 @@
 #!/bin/bash
 #
-BB_PROJECT="diag-minimal"
-LOG_FILE="${BB_PROJECT}-clean-sstate.log"
+
+if [ "$1" == "" ] ; then 
+    BUILD_CONF="standard"
+else
+    BUILD_CONF="${1}"
+    shift 1
+fi 
+
+LOG_FILE="diag-${BUILD_CONF}-clean-sstate.log"
 TEE_LOG="tee --append ${LOG_FILE}"
 rm -f ${LOG_FILE}
-bitbake -c cleansstate ${BB_PROJECT} 2>&1 | ${TEE_LOG}
+bitbake -c cleansstate diag-${BUILD_CONF} 2>&1 | ${TEE_LOG}
 if [ $? -ne 0 ] ; then 
-    echo "ERROR: bitbake -c cleansstate ${BB_PROJECT} failed!"
+    echo "ERROR1: bitbake -c cleansstate diag-%s failed!" "${BUILD_CONF}"
     exit 1
 fi 
-bitbake -c cleanall diag 2>&1 | ${TEE_LOG}
+bitbake -c cleanall diag-${BUILD_CONF} 2>&1 | ${TEE_LOG}
 if [ $? -ne 0 ] ; then 
-    echo "ERROR: bitbake -c cleanall diag failed!"
-    exit 1
+    echo "ERROR2: bitbake -c cleanall diag-%s failed!" "${BUILD_CONF}"
+    exit 2
 fi 
